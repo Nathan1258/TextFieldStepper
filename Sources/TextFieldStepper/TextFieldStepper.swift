@@ -120,7 +120,6 @@ public struct TextFieldStepper: View {
             
             VStack(spacing: 0) {
                 TextField("", text: $textValue)
-                    .ignoresSafeArea(.keyboard, edges: .bottom)
                     .focused($keyboardOpened)
                     .multilineTextAlignment(.center)
                     .font(.custom("BebasNeue-Regular", size: 22))
