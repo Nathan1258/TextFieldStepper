@@ -130,7 +130,7 @@ public struct TextFieldStepper: View {
                         // Show special text when value is -1 and keyboard is not open
                         Group {
                             if doubleValue == -1 && !keyboardOpened {
-                                Text("Set in workout")
+                                Text("Set weight now or mid-workout")
                                     .font(.custom("BebasNeue-Regular", size: 18))
                                     .foregroundColor(config.valueColor.opacity(0.7))
                                     .multilineTextAlignment(.center)
