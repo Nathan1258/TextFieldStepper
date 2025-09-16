@@ -126,6 +126,17 @@ public struct TextFieldStepper: View {
                     .keyboardType(.decimalPad)
                     .foregroundColor(config.valueColor)
                     .monospacedDigit()
+                    .overlay(
+                        // Show special text when value is -1 and keyboard is not open
+                        Group {
+                            if doubleValue == -1 && !keyboardOpened {
+                                Text("Set in workout")
+                                    .font(.custom("BebasNeue-Regular", size: 18))
+                                    .foregroundColor(config.valueColor.opacity(0.7))
+                                    .multilineTextAlignment(.center)
+                            }
+                        }
+                    )
                 
                 if !config.label.isEmpty {
                     Text(config.label)
@@ -147,7 +158,12 @@ public struct TextFieldStepper: View {
         }
         .onChange(of: keyboardOpened) { _ in
             if keyboardOpened {
-                textValue = textValue.replacingOccurrences(of: config.unit, with: "")
+                // When opening keyboard, if value is -1, clear the text field
+                if doubleValue == -1 {
+                    textValue = ""
+                } else {
+                    textValue = textValue.replacingOccurrences(of: config.unit, with: "")
+                }
             } else {
                 if !confirmed {
                     validateValue()
@@ -157,7 +173,10 @@ public struct TextFieldStepper: View {
             }
         }
         .onChange(of: doubleValue) { _ in
-            textValue = formatTextValue(doubleValue)
+            // Only update textValue if keyboard is not open or value is not -1
+            if !keyboardOpened || doubleValue != -1 {
+                textValue = formatTextValue(doubleValue)
+            }
         }
         .alert(
             alertTitle,
@@ -170,6 +189,11 @@ public struct TextFieldStepper: View {
     }
     
     private func formatTextValue(_ value: Double) -> String {
+        // Don't format -1 as it will be shown as special text
+        if value == -1 {
+            return ""
+        }
+        
         var stringValue = String(format: "%g", value.decimal)
         
         let formatter = NumberFormatter()
@@ -221,12 +245,21 @@ public struct TextFieldStepper: View {
                 textValue = formatTextValue(textToDouble)
             }
         } else {
-            // 2. If more than one decimal, throw Alert
-            // 3. If contains characters, throw Alert (hardware keyboard issue)
-            // 6. If doubleValue is empty, throw Alert
-            alertTitle = config.label
-            alertMessage = "Must contain a valid number."
-            shouldShowAlert = true
+            // Handle empty text field - could mean user wants to set to -1
+            if textValue.isEmpty {
+                // You might want to set this to -1 or handle it differently
+                // For now, treating empty as invalid
+                alertTitle = config.label
+                alertMessage = "Must contain a valid number."
+                shouldShowAlert = true
+            } else {
+                // 2. If more than one decimal, throw Alert
+                // 3. If contains characters, throw Alert (hardware keyboard issue)
+                // 6. If doubleValue is invalid, throw Alert
+                alertTitle = config.label
+                alertMessage = "Must contain a valid number."
+                shouldShowAlert = true
+            }
         }
         
         if shouldShowAlert && confirmed {
