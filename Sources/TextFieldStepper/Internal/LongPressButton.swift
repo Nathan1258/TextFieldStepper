@@ -73,14 +73,16 @@ struct LongPressButton: View {
      */
     private func updateDoubleValue() {
         var newValue: Double
-
-        if newValue == -1 { newValue += 1 }
         
         switch action {
             case .decrement:
                 newValue = doubleValue - config.increment
             case .increment:
-                newValue = doubleValue + config.increment
+                if doubleValue == -1 {
+                    newValue = doubleValue + (config.increment + 1)
+                }else{
+                    newValue = doubleValue + config.increment
+                }
         }
         
         doubleValue = (config.minimum...config.maximum).contains(newValue.decimal) ? newValue : doubleValue
