@@ -73,6 +73,8 @@ struct LongPressButton: View {
      */
     private func updateDoubleValue() {
         var newValue: Double
+
+        if newValue == -1 { newValue += 1 }
         
         switch action {
             case .decrement:
