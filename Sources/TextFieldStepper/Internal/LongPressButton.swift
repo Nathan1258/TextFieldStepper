@@ -17,7 +17,12 @@ struct LongPressButton: View {
     
     var body: some View {
         Button(action: {
-            !isLongPressing ? updateDoubleValue() : invalidateLongPress()
+            if !isLongPressing {
+                playHaptic()
+                updateDoubleValue()
+            } else {
+                invalidateLongPress()
+            }
         }) {
             image
         }
@@ -34,6 +39,15 @@ struct LongPressButton: View {
     private func invalidateLongPress() {
         isLongPressing = false
         timer?.invalidate()
+    }
+
+    private func playHaptic() {
+        #if os(iOS)
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.impactOccurred()
+        #elseif os(watchOS)
+        WKInterfaceDevice.current().play(.click)
+        #endif
     }
     
     /**
@@ -57,6 +71,7 @@ struct LongPressButton: View {
      */
     private func startTimer(_ value: LongPressGesture.Value) {
         isLongPressing = true
+        playHaptic()
         timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
             // Perform action regardless of actual value
             updateDoubleValue()
