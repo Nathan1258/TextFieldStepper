@@ -17,6 +17,7 @@ public struct TextFieldStepper: View {
     @State private var alertMessage = ""
     
     private let config: TextFieldStepperConfig
+    private let onFocus: (() -> Void)?
     
     private var cancelButton: some View {
         Button(action: {
@@ -78,6 +79,7 @@ public struct TextFieldStepper: View {
         shouldShowAlert: Bool? = nil,
         minimumDecimalPlaces: Int? = nil,
         maximumDecimalPlaces: Int? = nil,
+        onFocus: (() -> Void)? = nil,
         config: TextFieldStepperConfig = TextFieldStepperConfig()
     ) {
         // Compose config
@@ -102,6 +104,7 @@ public struct TextFieldStepper: View {
         // Assign properties
         self._doubleValue = doubleValue
         self.config = config
+        self.onFocus = onFocus
         
         // Set text value with State
         _textValue = State(initialValue: formatTextValue(doubleValue.wrappedValue))
@@ -156,8 +159,12 @@ public struct TextFieldStepper: View {
                 }
             }
         }
-        .onChange(of: keyboardOpened) { _ in
+        .onChange(of: keyboardOpened) {
             if keyboardOpened {
+                if let onFocus{
+                    onFocus()
+                }
+                
                 // When opening keyboard, if value is -1, clear the text field
                 if doubleValue == -1 {
                     textValue = ""
