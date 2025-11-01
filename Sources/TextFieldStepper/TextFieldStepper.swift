@@ -159,7 +159,7 @@ public struct TextFieldStepper: View {
                 }
             }
         }
-        .onChange(of: keyboardOpened) {
+        .onChange(of: keyboardOpened) { _ in
             if keyboardOpened {
                 if let onFocus{
                     onFocus()
