@@ -166,7 +166,7 @@ public struct TextFieldStepper: View {
                 }
                 
                 // When opening keyboard, if value is -1, clear the text field
-                if doubleValue == -1 {
+                if doubleValue == -1 || doubleValue == 0{
                     textValue = ""
                 } else {
                     textValue = textValue.replacingOccurrences(of: config.unit, with: "")
