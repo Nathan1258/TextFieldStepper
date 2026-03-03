@@ -18,5 +18,7 @@ public struct TextFieldStepperImage: View {
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(height: 35)
+            .symbolRenderingMode(.palette)
+            .foregroundStyle(color, Color.black)
     }
 }
