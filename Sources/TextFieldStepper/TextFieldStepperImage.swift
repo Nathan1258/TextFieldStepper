@@ -18,8 +18,9 @@ public struct TextFieldStepperImage: View {
     public var body: some View {
         image
             .font(.system(size: 14, weight: .bold))
-            .foregroundStyle(.black)
+            .foregroundStyle(isEnabled ? .black : .black.opacity(0.4))
             .frame(width: 35, height: 35)
-            .background(isEnabled ? color : Color.gray, in: RoundedRectangle(cornerRadius: 8))
+            .background(color, in: RoundedRectangle(cornerRadius: 8))
+            .saturation(isEnabled ? 1 : 0)
     }
 }
