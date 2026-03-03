@@ -14,10 +14,10 @@ public struct TextFieldStepperImage: View {
     }
     
     public var body: some View {
-        image
-            .symbolRenderingMode(.monochrome)
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(height: 35)
+        Image(systemName: systemName)
+            .font(.system(size: 14, weight: .bold))
+            .foregroundStyle(.black)
+            .frame(width: 35, height: 35)
+            .background(color, in: RoundedRectangle(cornerRadius: 8))
     }
 }
