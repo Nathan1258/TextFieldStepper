@@ -4,6 +4,8 @@ public struct TextFieldStepperImage: View {
     let image: Image
     let color: Color
 
+    @Environment(\.isEnabled) private var isEnabled
+
     public init(image: Image, color: Color = Color.accentColor) {
         self.image = image
         self.color = color
@@ -18,6 +20,6 @@ public struct TextFieldStepperImage: View {
             .font(.system(size: 14, weight: .bold))
             .foregroundStyle(.black)
             .frame(width: 35, height: 35)
-            .background(color, in: RoundedRectangle(cornerRadius: 8))
+            .background(isEnabled ? color : Color.gray, in: RoundedRectangle(cornerRadius: 8))
     }
 }
