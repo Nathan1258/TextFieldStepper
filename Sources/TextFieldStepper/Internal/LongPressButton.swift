@@ -29,7 +29,7 @@ struct LongPressButton: View {
         .simultaneousGesture(
             LongPressGesture(minimumDuration: 0.25).onEnded(startTimer)
         )
-        .foregroundColor(!disableButton() ? image.color : config.disabledColor)
+        // .foregroundColor(!disableButton() ? image.color : config.disabledColor)
         .disabled(disableButton())
     }
     
