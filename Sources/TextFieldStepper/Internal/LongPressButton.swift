@@ -26,7 +26,6 @@ struct LongPressButton: View {
         }) {
             image
         }
-        .buttonStyle(.plain)
         .simultaneousGesture(
             LongPressGesture(minimumDuration: 0.25).onEnded(startTimer)
         )
