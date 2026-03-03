@@ -29,7 +29,7 @@ struct LongPressButton: View {
         .simultaneousGesture(
             LongPressGesture(minimumDuration: 0.25).onEnded(startTimer)
         )
-        .opacity(disableButton() ? 0.3 : 1.0)
+        // .opacity(disableButton() ? 0.3 : 1.0)
         .disabled(disableButton())
     }
     
