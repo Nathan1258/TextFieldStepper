@@ -14,7 +14,7 @@ public struct TextFieldStepperImage: View {
     }
     
     public var body: some View {
-        Image(systemName: systemName)
+        image
             .font(.system(size: 14, weight: .bold))
             .foregroundStyle(.black)
             .frame(width: 35, height: 35)
