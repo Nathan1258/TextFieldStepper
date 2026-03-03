@@ -16,11 +16,18 @@ public struct TextFieldStepperImage: View {
     }
     
     public var body: some View {
-        image
-            .font(.system(size: 14, weight: .bold))
-            .foregroundStyle(isEnabled ? .black : .black.opacity(0.4))
-            .frame(width: 35, height: 35)
-            .background(color, in: RoundedRectangle(cornerRadius: 8))
-            .saturation(isEnabled ? 1 : 0)
+        if isEnabled {
+            image
+                .font(.system(size: 14, weight: .bold))
+                .foregroundStyle(.black)
+                .frame(width: 35, height: 35)
+                .background(color, in: RoundedRectangle(cornerRadius: 8))
+        } else {
+            image
+                .font(.system(size: 14, weight: .bold))
+                .foregroundStyle(.black.opacity(0.4))
+                .frame(width: 35, height: 35)
+                .background(Color.gray, in: RoundedRectangle(cornerRadius: 8))
+        }
     }
 }
